@@ -19,6 +19,8 @@ public interface DataController<T extends Persistable<PK>, PK> {
 
     public T find(PK key);
 
+    public Long count();
+
     public List<T> findAll();
 
     public List<T> findRange(int start, int length);
