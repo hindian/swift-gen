@@ -1,18 +1,25 @@
 package hindian.core.model;
 
+import java.util.Calendar;
 import java.util.Date;
-import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
  * @author shamshad
  */
-public class PersistentModel implements Persistable<Long> {
+@MappedSuperclass
+public class PersistentModel extends SimplePersistentModel implements Persistable<Long> {
 
-    @Id
-    private Long id;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedDate;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date deletedDate;
     private boolean deleted;
 
@@ -21,25 +28,54 @@ public class PersistentModel implements Persistable<Long> {
     }
 
     public PersistentModel(Long id) {
-        this.id = id;
+        super(id);
+        this.deleted = false;
     }
 
-    public Long getId() {
-        return id;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
-    @Override
-    public Long getPK() {
-        return getId();
+    public Date getModifiedDate() {
+        return modifiedDate;
     }
 
-    @Override
-    public boolean isNew() {
-        return id == null;
+    public void setModifiedDate(Date modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
+    public Date getDeletedDate() {
+        return deletedDate;
+    }
+
+    public void setDeletedDate(Date deletedDate) {
+        this.deletedDate = deletedDate;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    @PrePersist
+    public void initDate() {
+        this.createdDate = Calendar.getInstance().getTime();
+        this.modifiedDate = this.createdDate;
+    }
+
+    @PreUpdate
+    public void updateDate() {
+        this.modifiedDate = Calendar.getInstance().getTime();
+        if (deleted) {
+            this.deletedDate = this.modifiedDate;
+        }
     }
 
     @Override
