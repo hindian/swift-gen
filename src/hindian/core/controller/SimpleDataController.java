@@ -2,20 +2,32 @@ package hindian.core.controller;
 
 import hindian.core.model.Persistable;
 import java.util.List;
+import javax.persistence.EntityManager;
 
 /**
  *
  * @author shamshad
  */
-public class SimpleDataController implements DataController<Persistable<Long>, Long> {
+public abstract class SimpleDataController<T extends Persistable<Long>> implements DataController<T, Long> {
+
+    private Class<T> entityClass;
+
+    public SimpleDataController(Class<T> entityClass) {
+        if (entityClass == null) {
+            throw new NullPointerException("Persistence class supplied is null");
+        }
+        this.entityClass = entityClass;
+    }
+
+    protected abstract EntityManager getEntityManager();
 
     @Override
-    public void save(Persistable<Long> persistable) {
+    public void save(T persistable) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void update(Persistable<Long> persistable) {
+    public void update(T persistable) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -25,12 +37,12 @@ public class SimpleDataController implements DataController<Persistable<Long>, L
     }
 
     @Override
-    public boolean exists(Persistable<Long> persistable) {
+    public boolean exists(T persistable) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Persistable<Long> find(Long key) {
+    public T find(Long key) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -40,12 +52,12 @@ public class SimpleDataController implements DataController<Persistable<Long>, L
     }
 
     @Override
-    public List<Persistable<Long>> findAll() {
+    public List<T> findAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<Persistable<Long>> findRange(int start, int length) {
+    public List<T> findRange(int start, int length) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
