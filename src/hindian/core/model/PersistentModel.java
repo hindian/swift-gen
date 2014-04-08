@@ -7,6 +7,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 
 /**
  *
@@ -21,6 +22,8 @@ public class PersistentModel extends SimplePersistentModel implements Persistabl
     private Date modifiedDate;
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedDate;
+    @Version
+    private int version;
     private boolean deleted;
 
     public PersistentModel() {
@@ -34,6 +37,14 @@ public class PersistentModel extends SimplePersistentModel implements Persistabl
 
     public Date getCreatedDate() {
         return createdDate;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 
     public void setCreatedDate(Date createdDate) {
