@@ -4,6 +4,10 @@ import hindian.core.model.Persistable;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -57,16 +61,27 @@ public abstract class SimpleDataController<T extends Persistable<Long>> implemen
 
     @Override
     public Long count() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return 0L;
     }
 
     @Override
     public List<T> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return findRange(-1, -1);
     }
 
     @Override
     public List<T> findRange(int start, int length) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = getEntityManager();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<T> cq = cb.createQuery(entityClass);
+        Root<T> root = cq.from(entityClass);
+        TypedQuery<T> query = em.createQuery(cq);
+        if (start != -1) {
+            query.setFirstResult(start);
+        }
+        if (length != -1) {
+            query.setMaxResults(length);
+        }
+        return query.getResultList();
     }
 }
