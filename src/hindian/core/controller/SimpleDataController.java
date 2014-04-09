@@ -61,6 +61,11 @@ public abstract class SimpleDataController<T extends Persistable<Long>> implemen
 
     @Override
     public Long count() {
+        EntityManager em = getEntityManager();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> count = cb.createQuery(Long.class);
+        CriteriaQuery<T> cq = cb.createQuery(entityClass);
+        Root<T> root = cq.from(entityClass);
         return 0L;
     }
 
