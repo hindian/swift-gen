@@ -3,6 +3,7 @@ package hindian.core.controller;
 import hindian.core.model.Persistable;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
 /**
  *
@@ -11,39 +12,47 @@ import javax.persistence.EntityManager;
 public abstract class SimpleDataController<T extends Persistable<Long>> implements DataController<T, Long> {
 
     private Class<T> entityClass;
+    private boolean autoCommit;
+    private EntityTransaction transaction;
 
     public SimpleDataController(Class<T> entityClass) {
         if (entityClass == null) {
             throw new NullPointerException("Persistence class supplied is null");
         }
         this.entityClass = entityClass;
+        this.autoCommit = true;
     }
 
     protected abstract EntityManager getEntityManager();
 
     @Override
     public void save(T persistable) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        getEntityManager().persist(persistable);
     }
 
     @Override
     public void update(T persistable) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = getEntityManager();
+        if (em.contains(persistable)) {
+            em.merge(persistable);
+        } else {
+            em.persist(persistable);
+        }
     }
 
     @Override
     public boolean exists(Long key) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return true;
     }
 
     @Override
     public boolean exists(T persistable) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return persistable == null || persistable.isNew() ? false : exists(persistable.getPK());
     }
 
     @Override
     public T find(Long key) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return getEntityManager().find(entityClass, key);
     }
 
     @Override
