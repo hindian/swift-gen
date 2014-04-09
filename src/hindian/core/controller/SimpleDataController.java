@@ -46,7 +46,13 @@ public abstract class SimpleDataController<T extends Persistable<Long>> implemen
 
     @Override
     public boolean exists(Long key) {
-        return true;
+        EntityManager em = getEntityManager();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<T> cq = cb.createQuery(entityClass);
+        Root<T> root = cq.from(entityClass);
+        cq.where(cb.equal(root.get("id"), key));
+        TypedQuery<T> query = em.createQuery(cq);
+        return query.getResultList().size() > 0;
     }
 
     @Override
