@@ -1,5 +1,6 @@
 package hindian.core.annotation.validation;
 
+import hindian.core.annotation.Message;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Comparator;
@@ -12,4 +13,6 @@ import java.util.Comparator;
 public @interface List {
 
     String[] value();
+
+    Message message() default @Message(key = "__default", message = "");
 }
