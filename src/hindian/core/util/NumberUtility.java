@@ -126,7 +126,7 @@ public class NumberUtility {
     public static <T> Integer sum(Iterable<T> values, ByteFunction<T> byteFunction) {
         int sum = 0;
         for (T t : values) {
-            sum += byteFunction.call(t);
+            sum += byteFunction.apply(t);
         }
         return sum;
     }
@@ -134,7 +134,7 @@ public class NumberUtility {
     public static <T> Integer sum(Iterable<T> values, ShortFunction<T> shortFunction) {
         int sum = 0;
         for (T t : values) {
-            sum += shortFunction.call(t);
+            sum += shortFunction.apply(t);
         }
         return sum;
     }
@@ -142,7 +142,7 @@ public class NumberUtility {
     public static <T> Integer sum(Iterable<T> values, IntegerFunction<T> integerFunction) {
         int sum = 0;
         for (T t : values) {
-            sum += integerFunction.call(t);
+            sum += integerFunction.apply(t);
         }
         return sum;
     }
@@ -150,7 +150,7 @@ public class NumberUtility {
     public static <T> Long sum(Iterable<T> values, LongFunction<T> longFunction) {
         long sum = 0;
         for (T t : values) {
-            sum += longFunction.call(t);
+            sum += longFunction.apply(t);
         }
         return sum;
     }
@@ -158,7 +158,7 @@ public class NumberUtility {
     public static <T> Double sum(Iterable<T> values, DoubleFunction<T> doubleFunction) {
         double sum = 0.0;
         for (T t : values) {
-            sum += doubleFunction.call(t);
+            sum += doubleFunction.apply(t);
         }
         return sum;
     }
@@ -166,7 +166,7 @@ public class NumberUtility {
     public static <T> Float sum(Iterable<T> values, FloatFunction<T> floatFunction) {
         float sum = 0.0f;
         for (T t : values) {
-            sum += floatFunction.call(t);
+            sum += floatFunction.apply(t);
         }
         return sum;
     }
@@ -174,7 +174,7 @@ public class NumberUtility {
     public static <T> BigInteger sum(Iterable<T> values, BigIntegerFunction<T> bigIntegerFunction) {
         BigInteger sum = BigInteger.ZERO;
         for (T t : values) {
-            sum.add(bigIntegerFunction.call(t));
+            sum.add(bigIntegerFunction.apply(t));
         }
         return sum;
     }
@@ -270,7 +270,7 @@ public class NumberUtility {
     public static <T> BigDecimal sum(Iterable<T> values, BigDecimalFunction<T> bigDecimalFunction) {
         BigDecimal sum = BigDecimal.ZERO;
         for (T t : values) {
-            sum.add(bigDecimalFunction.call(t));
+            sum.add(bigDecimalFunction.apply(t));
         }
         return sum;
     }

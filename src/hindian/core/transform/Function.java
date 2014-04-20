@@ -6,5 +6,5 @@ package hindian.core.transform;
  */
 public interface Function<T, S> {
 
-    public T call(S source);
+    public T apply(S source);
 }
