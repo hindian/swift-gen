@@ -18,11 +18,81 @@ public class Precondition {
         }
     }
 
+    public static <T> void checkNotEmptyOrNull(byte[] reference) {
+        checkNotEmptyOrNull(reference, "Reference is " + reference == null ? " null" : " empty");
+    }
+
+    public static <T> void checkNotEmptyOrNull(short[] reference) {
+        checkNotEmptyOrNull(reference, "Reference is " + reference == null ? " null" : " empty");
+    }
+
+    public static <T> void checkNotEmptyOrNull(int[] reference) {
+        checkNotEmptyOrNull(reference, "Reference is " + reference == null ? " null" : " empty");
+    }
+
+    public static <T> void checkNotEmptyOrNull(long[] reference) {
+        checkNotEmptyOrNull(reference, "Reference is " + reference == null ? " null" : " empty");
+    }
+
+    public static <T> void checkNotEmptyOrNull(float[] reference) {
+        checkNotEmptyOrNull(reference, "Reference is " + reference == null ? " null" : " empty");
+    }
+
+    public static <T> void checkNotEmptyOrNull(double[] reference) {
+        checkNotEmptyOrNull(reference, "Reference is " + reference == null ? " null" : " empty");
+    }
+
     public static <T> void checkNotEmptyOrNull(T[] reference) {
         checkNotEmptyOrNull(reference, "Reference is " + reference == null ? " null" : " empty");
     }
 
     public static <T> void checkNotEmptyOrNull(T[] reference, String message) {
+        if (reference == null || reference.length == 0) {
+            throw new NullOrEmptyArrayException(message);
+        }
+    }
+
+    public static <T> void checkNotEmptyOrNull(Iterable<T> reference) {
+        checkNotEmptyOrNull(reference, "Reference is " + reference == null ? " null" : " empty");
+    }
+
+    public static <T> void checkNotEmptyOrNull(Iterable<T> reference, String message) {
+        if (reference == null || !reference.iterator().hasNext()) {
+            throw new NullOrEmptyArrayException(message);
+        }
+    }
+
+    public static <T> void checkNotEmptyOrNull(byte[] reference, String message) {
+        if (reference == null || reference.length == 0) {
+            throw new NullOrEmptyArrayException(message);
+        }
+    }
+
+    public static <T> void checkNotEmptyOrNull(short[] reference, String message) {
+        if (reference == null || reference.length == 0) {
+            throw new NullOrEmptyArrayException(message);
+        }
+    }
+
+    public static <T> void checkNotEmptyOrNull(int[] reference, String message) {
+        if (reference == null || reference.length == 0) {
+            throw new NullOrEmptyArrayException(message);
+        }
+    }
+
+    public static <T> void checkNotEmptyOrNull(long[] reference, String message) {
+        if (reference == null || reference.length == 0) {
+            throw new NullOrEmptyArrayException(message);
+        }
+    }
+
+    public static <T> void checkNotEmptyOrNull(float[] reference, String message) {
+        if (reference == null || reference.length == 0) {
+            throw new NullOrEmptyArrayException(message);
+        }
+    }
+
+    public static <T> void checkNotEmptyOrNull(double[] reference, String message) {
         if (reference == null || reference.length == 0) {
             throw new NullOrEmptyArrayException(message);
         }

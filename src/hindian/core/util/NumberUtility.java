@@ -53,10 +53,6 @@ public class NumberUtility {
         return sum;
     }
 
-    public static int avg(int... value) {
-        return value != null && value.length > 0 ? sum(value) / value.length : 0;
-    }
-
     public static double sum(double... value) {
         double sum = 0;
         if (value != null) {
@@ -179,6 +175,116 @@ public class NumberUtility {
         return sum;
     }
 
+    public static <T> BigDecimal sum(Iterable<T> values, BigDecimalFunction<T> bigDecimalFunction) {
+        BigDecimal sum = BigDecimal.ZERO;
+        for (T t : values) {
+            sum.add(bigDecimalFunction.apply(t));
+        }
+        return sum;
+    }
+
+    public static double avg(byte... value) {
+        return value != null && value.length > 0 ? (double) sum(value) / value.length : 0.0;
+    }
+
+    public static double avg(short... value) {
+        return value != null && value.length > 0 ? (double) sum(value) / value.length : 0.0;
+    }
+
+    public static double avg(int... value) {
+        return value != null && value.length > 0 ? (double) sum(value) / value.length : 0.0;
+    }
+
+    public static double avg(long... value) {
+        return value != null && value.length > 0 ? (double) sum(value) / value.length : 0.0;
+    }
+
+    public static double avg(float... value) {
+        return value != null && value.length > 0 ? sum(value) / value.length : 0.0;
+    }
+
+    public static double avg(double... value) {
+        return value != null && value.length > 0 ? (double) sum(value) / value.length : 0.0;
+    }
+
+    public static BigDecimal avg(BigInteger... value) {
+        return value != null && value.length > 0
+                ? new BigDecimal(sum(value)).divide(BigDecimal.valueOf(value.length))
+                : BigDecimal.ZERO;
+    }
+
+    public static BigDecimal avg(BigDecimal... value) {
+        return value != null && value.length > 0
+                ? sum(value).divide(BigDecimal.valueOf(value.length))
+                : BigDecimal.ZERO;
+    }
+
+    public static byte max(byte... values) {
+        Precondition.checkNotEmptyOrNull(values);
+        byte max = values[0];
+        for (Byte b : values) {
+            if (max < b) {
+                max = b;
+            }
+        }
+        return max;
+    }
+
+    public static short max(short... values) {
+        Precondition.checkNotEmptyOrNull(values);
+        short max = values[0];
+        for (short s : values) {
+            if (max < s) {
+                max = s;
+            }
+        }
+        return max;
+    }
+
+    public static int max(int... values) {
+        Precondition.checkNotEmptyOrNull(values);
+        int max = values[0];
+        for (int integer : values) {
+            if (max < integer) {
+                max = integer;
+            }
+        }
+        return max;
+    }
+
+    public static long max(long... values) {
+        Precondition.checkNotEmptyOrNull(values);
+        long max = values[0];
+        for (long l : values) {
+            if (max < l) {
+                max = l;
+            }
+        }
+        return max;
+    }
+
+    public static double max(double... values) {
+        Precondition.checkNotEmptyOrNull(values);
+        double max = values[0];
+        for (double d : values) {
+            if (max < d) {
+                max = d;
+            }
+        }
+        return max;
+    }
+
+    public static float max(float... values) {
+        Precondition.checkNotEmptyOrNull(values);
+        float max = values[0];
+        for (float f : values) {
+            if (max < f) {
+                max = f;
+            }
+        }
+        return max;
+    }
+
     public static Byte max(Byte... values) {
         Precondition.checkNotEmptyOrNull(values);
         Byte max = values[0];
@@ -267,16 +373,76 @@ public class NumberUtility {
         return max;
     }
 
-    public static <T> BigDecimal sum(Iterable<T> values, BigDecimalFunction<T> bigDecimalFunction) {
-        BigDecimal sum = BigDecimal.ZERO;
+    public static <T> T max(ByteFunction<T> byteFunction, T... values) {
+        Precondition.checkNotEmptyOrNull(values);
+        T max = values[0];
+        Byte maxValue = byteFunction.apply(max);
         for (T t : values) {
-            sum.add(bigDecimalFunction.apply(t));
+            Byte b = byteFunction.apply(t);
+            if (maxValue < b) {
+                maxValue = b;
+                max = t;
+            }
         }
-        return sum;
+        return max;
     }
 
-    public static double avg(double... value) {
-        return value != null && value.length > 0 ? sum(value) / value.length : 0;
+    public static <T> T max(ShortFunction<T> shortFunction, T... values) {
+        Precondition.checkNotEmptyOrNull(values);
+        T max = values[0];
+        Short maxValue = shortFunction.apply(values[0]);
+        for (T t : values) {
+            Short b = shortFunction.apply(t);
+            if (maxValue < b) {
+                maxValue = b;
+                max = t;
+            }
+        }
+        return max;
+    }
+
+    public static <T> T max(IntegerFunction<T> intFunction, T... values) {
+        Precondition.checkNotEmptyOrNull(values);
+        T max = values[0];
+        Integer maxValue = intFunction.apply(max);
+        for (T t : values) {
+            Integer b = intFunction.apply(t);
+            if (maxValue < b) {
+                maxValue = b;
+                max = t;
+            }
+        }
+        return max;
+    }
+
+    public static <T> T max(LongFunction<T> longFunction, T... values) {
+        Precondition.checkNotEmptyOrNull(values);
+        T max = values[0];
+        Long maxValue = longFunction.apply(max);
+        for (T t : values) {
+            Long b = longFunction.apply(t);
+            if (maxValue < b) {
+                maxValue = b;
+                max = t;
+            }
+        }
+        return max;
+    }
+
+    public static <T> T max(Iterable<T> iterable, ByteFunction<T> byteFunction) {
+        Precondition.checkNotEmptyOrNull(iterable);
+        Iterator<T> iterator = iterable.iterator();
+        T max = iterator.next();
+        Byte cacheMax = byteFunction.apply(max);
+        while (iterator.hasNext()) {
+            T next = iterator.next();
+            Byte nextValue = byteFunction.apply(next);
+            if (cacheMax < nextValue) {
+                max = next;
+                cacheMax = nextValue;
+            }
+        }
+        return max;
     }
 
     private static class IterableArray<T> implements Iterable<T> {
