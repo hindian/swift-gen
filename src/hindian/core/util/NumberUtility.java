@@ -429,6 +429,62 @@ public class NumberUtility {
         return max;
     }
 
+    public static <T> T max(FloatFunction<T> floatFunction, T... values) {
+        Precondition.checkNotEmptyOrNull(values);
+        T max = values[0];
+        Float maxValue = floatFunction.apply(max);
+        for (T t : values) {
+            Float b = floatFunction.apply(t);
+            if (maxValue < b) {
+                maxValue = b;
+                max = t;
+            }
+        }
+        return max;
+    }
+
+    public static <T> T max(DoubleFunction<T> doubleFunction, T... values) {
+        Precondition.checkNotEmptyOrNull(values);
+        T max = values[0];
+        Double maxValue = doubleFunction.apply(max);
+        for (T t : values) {
+            Double b = doubleFunction.apply(t);
+            if (maxValue < b) {
+                maxValue = b;
+                max = t;
+            }
+        }
+        return max;
+    }
+
+    public static <T> T max(BigIntegerFunction<T> bigIntegerFunction, T... values) {
+        Precondition.checkNotEmptyOrNull(values);
+        T max = values[0];
+        BigInteger maxValue = bigIntegerFunction.apply(max);
+        for (T t : values) {
+            BigInteger b = bigIntegerFunction.apply(t);
+            if (maxValue.compareTo(b) < 0) {
+                maxValue = b;
+                max = t;
+            }
+        }
+        return max;
+    }
+
+    public static <T> T max(BigDecimalFunction<T> bigDecimalFunction, T... values) {
+        Precondition.checkNotEmptyOrNull(values);
+        T max = values[0];
+        BigDecimal maxValue = bigDecimalFunction.apply(max);
+        for (T t : values) {
+            BigDecimal b = bigDecimalFunction.apply(t);
+            if (maxValue.compareTo(b) < 0) {
+                maxValue = b;
+                max = t;
+            }
+        }
+        return max;
+    }
+
     public static <T> T max(Iterable<T> iterable, ByteFunction<T> byteFunction) {
         Precondition.checkNotEmptyOrNull(iterable);
         Iterator<T> iterator = iterable.iterator();
